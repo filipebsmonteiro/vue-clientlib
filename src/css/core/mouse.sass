@@ -1,0 +1,24 @@
+.non-selectable
+  user-select: none !important
+
+  .no-scroll
+  overflow: hidden !important
+
+.cursor
+  &-pointer
+    cursor: pointer !important
+  &-not-allowed
+    cursor: not-allowed !important
+  &-inherit
+    cursor: inherit !important
+  &-none
+    cursor: none !important
+
+[aria-busy='true']
+  cursor: progress
+
+[aria-controls]
+  cursor: pointer
+
+[aria-disabled]
+  cursor: default

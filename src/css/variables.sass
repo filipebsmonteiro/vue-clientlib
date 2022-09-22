@@ -1,0 +1,139 @@
+$space-base   : 16px !default
+$space-x-base : $space-base !default
+$space-y-base : $space-base !default
+
+$space-none : (x: 0, y: 0) !default
+$space-xs   : (x: ($space-x-base * .25), y: ($space-y-base * .25)) !default
+$space-sm   : (x: ($space-x-base * .5), y: ($space-y-base * .5)) !default
+$space-md   : (x: $space-x-base, y: $space-y-base) !default
+$space-lg   : (x: ($space-x-base * 1.5), y: ($space-y-base * 1.5)) !default
+$space-xl   : (x: ($space-x-base * 3), y: ($space-y-base * 3)) !default
+
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$spaces: ('none': $space-none, 'xs': $space-xs, 'sm': $space-sm, 'md': $space-md, 'lg': $space-lg, 'xl': $space-xl) !default
+
+$animate-duration : .3s !default
+$animate-delay    : .3s !default
+$animate-repeat   : 1 !default
+
+// Max width at which point
+// current size ends
+$breakpoint-xs: 599px !default
+$breakpoint-sm: 1023px !default
+$breakpoint-md: 1439px !default
+$breakpoint-lg: 1919px !default
+
+$body-font-size   : 14px !default
+$body-line-height : 1.5 !default
+
+$flex-cols      : 12 !default
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$sizes: ('xs': 0, 'sm': ($breakpoint-xs + 1), 'md': ($breakpoint-sm + 1), 'lg': ($breakpoint-md + 1), 'xl': ($breakpoint-lg + 1)) !default
+
+$breakpoint-xs-max: (map-get($sizes, "sm") - 0.02) !default
+
+$breakpoint-sm-min: map-get($sizes, "sm") !default
+$breakpoint-sm-max: (map-get($sizes, "md") - 0.02) !default
+
+$breakpoint-md-min: map-get($sizes, "md") !default
+$breakpoint-md-max: (map-get($sizes, "lg") - 0.02) !default
+
+$breakpoint-lg-min: map-get($sizes, "lg") !default
+$breakpoint-lg-max: (map-get($sizes, "xl") - 0.02) !default
+
+$breakpoint-xl-min: map-get($sizes, "xl") !default
+
+$h1: (size: 6rem,     line-height: 6.7rem,     letter-spacing: -.01562em, weight: 300) !default
+$h2: (size: 3.75rem,  line-height: 3.75rem,  letter-spacing: -.00833em, weight: 300) !default
+$h3: (size: 3rem,     line-height: 3.125rem, letter-spacing: normal,    weight: 400) !default
+$h4: (size: 2.125rem, line-height: 2.5rem,   letter-spacing: .00735em,  weight: 400) !default
+$h5: (size: 1.5rem,   line-height: 2rem,     letter-spacing: normal,    weight: 400) !default
+$h6: (size: 1.25rem,  line-height: 2rem,     letter-spacing: .0125em,   weight: 500) !default
+
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$headings: ('h1': $h1, 'h2': $h2, 'h3': $h3, 'h4': $h4, 'h5': $h5, 'h6': $h6, ) !default
+
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$h-tags: (h1: map-get($headings, "h1"), h2: map-get($headings, "h2"), h3: map-get($headings, "h3"), h4: map-get($headings, "h4"), h5: map-get($headings, "h5"), h6: map-get($headings, "h6")) !default
+
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$text-weights: (thin: 100, light: 300, regular: 400, medium: 500, bold: 700, bolder: 900) !default
+
+$primary   : #1976D2 !default
+$secondary : #26A69A !default
+
+$positive  : #21BA45 !default
+$negative  : #C10015 !default
+$black     : #000000 !default
+$white     : #FFFFFF !default
+
+$separator-color      : rgba(0, 0, 0, .12) !default
+
+$z-fab                : 990 !default
+$z-side               : 1000 !default
+$z-marginals          : 2000 !default
+$z-fixed-drawer       : 3000 !default
+$z-fullscreen         : 6000 !default
+$z-menu               : 6000 !default
+$z-top                : 7000 !default
+$z-tooltip            : 9000 !default
+$z-notify             : 9500 !default
+$z-max                : 9998 !default
+
+$shadow-color         : #000 !default
+$inset-shadow         : 0 7px 9px -7px rgba($shadow-color, .7) inset !default
+$inset-shadow-down    : 0 -7px 9px -7px rgba($shadow-color, .7) inset !default
+
+$elevation-umbra      : rgba($shadow-color, .2) !default
+$elevation-penumbra   : rgba($shadow-color, .14) !default
+$elevation-ambient    : rgba($shadow-color, .12) !default
+
+$shadow-0  : 0 0 0 $elevation-umbra, 0 0 0 $elevation-penumbra, 0 0 0 $elevation-ambient !default
+$shadow-1  : 0 1px 3px $elevation-umbra, 0 1px 1px $elevation-penumbra, 0 2px 1px -1px $elevation-ambient !default
+$shadow-2  : 0 1px 5px $elevation-umbra, 0 2px 2px $elevation-penumbra, 0 3px 1px -2px $elevation-ambient !default
+$shadow-3  : 0 1px 8px $elevation-umbra, 0 3px 4px $elevation-penumbra, 0 3px 3px -2px $elevation-ambient !default
+$shadow-4  : 0 2px 4px -1px $elevation-umbra, 0 4px 5px $elevation-penumbra, 0 1px 10px $elevation-ambient !default
+$shadow-5  : 0 3px 5px -1px $elevation-umbra, 0 5px 8px $elevation-penumbra, 0 1px 14px $elevation-ambient !default
+
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$shadows: ($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5)
+
+$generic-border-radius          : 4px !default
+$generic-hover-transition       : .3s cubic-bezier(.25, .8, .5, 1) !default
+$typography-font-family         : 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif !default
+$min-line-height                : 1.12 !default
+
+$button-border-radius           : 3px !default
+$button-padding                 : 4px 16px !default
+$button-dense-padding           : .285em !default
+$button-transition              : $generic-hover-transition !default
+$button-font-size               : 14px !default
+$button-line-height             : 1.715em !default
+$button-font-weight             : 500 !default
+$button-shadow                  : $shadow-2 !default
+$button-shadow-active           : $shadow-5 !default
+$button-rounded-border-radius   : 28px !default
+$button-push-border-radius      : 7px !default
+
+$toolbar-min-height             : 50px !default
+$toolbar-padding                : 0 12px !default
+$toolbar-inset-size             : 58px !default
+$toolbar-title-font-size        : 21px !default
+$toolbar-title-font-weight      : normal !default
+$toolbar-title-letter-spacing   : .01em !default
+$toolbar-title-padding          : 0 12px !default
+
+$menu-background                : #fff !default
+$menu-box-shadow                : $shadow-2 !default
+$menu-max-width                 : 95vw !default
+
+$input-font-size                : 14px !default
+$input-text-color               : rgba(0,0,0,.87) !default
+$input-label-color              : rgba(0,0,0,.6) !default
+$input-autofill-color           : inherit !default
+
+$img-loading-font-size          : 50px !default
+$img-content-position           : absolute !default
+$img-content-padding            : 16px !default
+$img-content-color              : #fff !default
+$img-content-background         : rgba(0, 0, 0, .47) !default
