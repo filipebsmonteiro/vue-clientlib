@@ -22,7 +22,7 @@ export default defineComponent({
     
     if (src.startsWith(`./`) || src.startsWith(`@/`)) {
       src = src.startsWith(`./`) ? src.replace(`./`, `@/`) : src
-      src = import(src).then(response => response)
+      //src = import(src).then(response => response)
     }
 
     return () => h('img', {
