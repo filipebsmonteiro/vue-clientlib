@@ -1,15 +1,15 @@
 .no-margin
-  margin: 0 !important
+  margin: 0
 .no-padding
-  padding: 0 !important
+  padding: 0
 .no-border
-  border: 0 !important
+  border: 0
 .no-border-radius
-  border-radius: 0 !important
+  border-radius: 0
 .no-box-shadow
-  box-shadow: none !important
+  box-shadow: none
 .no-outline
-  outline: 0 !important
+  outline: 0
 
 .ellipsis
   text-overflow: ellipsis
@@ -26,7 +26,7 @@
     -webkit-line-clamp: 3
 
 .readonly
-  cursor: default !important
+  cursor: default
 .disabled, [disabled]
   &, * // @stylint ignore
     outline: 0 !important
@@ -42,11 +42,11 @@
   background: transparent !important
 
 .overflow-auto
-  overflow: auto !important
+  overflow: auto
 .overflow-hidden
-  overflow: hidden !important
+  overflow: hidden
 .overflow-hidden-y
-  overflow-y: hidden !important
+  overflow-y: hidden
 
 .hide-scrollbar
   scrollbar-width: none
@@ -64,31 +64,31 @@
 
 @media all and (orientation: portrait)
   .orientation-landscape
-    display: none !important
+    display: none
 
 @media all and (orientation: landscape)
   .orientation-portrait
-    display: none !important
+    display: none
 
 @media screen
   .print-only
-    display: none !important
+    display: none
 @media print
   .print-hide
-    display: none !important
+    display: none
 
 @media (max-width: $breakpoint-xs-max)
   .xs-hide, .gt-xs, .sm, .gt-sm, .md, .gt-md, .lg, .gt-lg, .xl
-    display: none !important
+    display: none
 @media (min-width: $breakpoint-sm-min) and (max-width: $breakpoint-sm-max)
   .sm-hide, .xs, .lt-sm, .gt-sm, .md, .gt-md, .lg, .gt-lg, .xl
-    display: none !important
+    display: none
 @media (min-width: $breakpoint-md-min) and (max-width: $breakpoint-md-max)
   .md-hide, .xs, .lt-sm, .sm, .lt-md, .gt-md, .lg, .gt-lg, .xl
-    display: none !important
+    display: none
 @media (min-width: $breakpoint-lg-min) and (max-width: $breakpoint-lg-max)
   .lg-hide, .xs, .lt-sm, .sm, .lt-md, .md, .lt-lg, .gt-lg, .xl
-    display: none !important
+    display: none
 @media (min-width: $breakpoint-xl-min)
   .xl-hide, .xs, .lt-sm, .sm, .lt-md, .md, .lt-lg, .lg, .lt-xl
-    display: none !important
+    display: none
