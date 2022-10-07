@@ -1,4 +1,4 @@
-import { App, createApp, defineComponent, Fragment, h, VNode } from 'vue';
+import { App, createApp, defineComponent, h, VNode } from 'vue';
 // import {createApp} from 'vue/dist/vue.esm-browser.js';
 import { getAttrs, getSlotData } from './html';
 import { ClientlibComponent, PluginOptions } from './types/mytypes';
@@ -6,10 +6,12 @@ import { ClientlibComponent, PluginOptions } from './types/mytypes';
 export class ViteClientLib {
     components: Array<ClientlibComponent>;
     componentsTags: Array<String>;
+    instances: Array<App>;
 
     constructor() {
         this.components = []
         this.componentsTags = []
+        this.instances = []
     }
 
     loadComponents(componentFiles:Record<string, () => Promise<unknown>>): void {
@@ -102,7 +104,7 @@ export class ViteClientLib {
                     const instance = createApp({
                         render: () => h(VNode)
                     });
-                    console.log(instance);
+                    instances.push(instance);
 
                     this.components.map(co => instance.component(co.name as string, co.module.default) )
                     instance.mount(element);

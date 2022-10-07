@@ -26,7 +26,7 @@ const getComponentsData = () => {
 
     return components;
 }
-d
+
 const parsedAttributes = (HTMLElement) => {
     return HTMLElement
         .getAttributeNames()
