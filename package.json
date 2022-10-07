@@ -1,8 +1,19 @@
 {
-  "name": "cms.base",
-  "private": true,
-  "version": "0.0.0",
+  "name": "vite-clientlib",
+  "private": false,
+  "version": "0.0.1",
   "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/vite-clientlib.umd.js",
+  "module": "./dist/vite-clientlib.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vite-clientlib.es.js",
+      "require": "./dist/vite-clientlib.umd.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -16,5 +27,8 @@
     "@vitejs/plugin-vue": "^3.0.3",
     "sass": "^1.55.0",
     "vite": "^3.0.7"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

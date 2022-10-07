@@ -1,4 +1,4 @@
-import path, { format } from 'path'
+import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
@@ -10,22 +10,24 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@/': `${path.resolve(__dirname, 'src')}/`
+      '@/': `${path.resolve(__dirname, 'src')}/`,
+      // vue$: 'vue/dist/vue.esm-bundler.js'
     }
   },
   build: {
-    // minify: false,
+    minify: false,
     lib: {
-      entry: './src/main.js',
+      entry: './src/main.ts',
       name: 'index',
-      fileName: () => `[name].${format}.js`,
-      formats: ['iife'],
+      fileName: (format) => `vite-clientlib.${format}.js`,
+      // formats: ['iife'],
     },
     emptyOutDir: true,
-    // outDir: ``,
+    // outDir: `./dist`,
 
     // rollupOptions: {
     //   entry: { 'main': ['./src/main.js'] },
+    //   formats: ['iife'],
     //   output: {
     //     filename: `[name].${format}.js`,
     //     assetFileNames: (assetInfo) => {
@@ -33,10 +35,9 @@ export default defineConfig({
     //         return 'custom-name.css';
     //       return assetInfo.name;
     //     },
-    //     globals: { '/etc/designs/icon.png': 'imagem' }
+    //     globals: { vue: "Vue" }
     //   },
-    //   formats: ['iife'],
-    //   external: [ /^\/etc\/designs/, '/etc/designs/icon.png' ],
+    //   external: [ "vue" ],
     // }
   }
 })

@@ -1,8 +1,12 @@
-import { createApp, defineAsyncComponent, h } from 'vue';
+import { createApp, defineAsyncComponent, defineComponent, h } from 'vue';
 
 let customComponents = null;
 const getComponentsData = () => {
-    const componentFiles = import.meta.glob('@/components/**/**/**.vue');
+    const componentFiles = import.meta.glob([
+        '@/components/**/**/**.vue',
+        // '@/components/**/**/**.js'
+    ], { eager: true });
+    // ]);
     let components = [];
 
     for (let [location, file] of Object.entries(componentFiles)) {
@@ -10,27 +14,25 @@ const getComponentsData = () => {
         let kebab = name.replace(/[A-Z]/g, "-$&").toLowerCase() // PascalCase to kebab-case
         while(kebab.charAt(0) === '-'){kebab = kebab.substring(1)}
 
-        // await files[location]().then(async (componentModule) => {
-            components.push({
-                asyncComponent: defineAsyncComponent(file),
-                ElegibleDOMElements: document.querySelectorAll(`${kebab}, ${name}`),
-                file,
-                name,
-                selector: kebab,
-            })
-        // })
+        components.push({
+            componentModule: defineComponent(file),
+            ElegibleDOMElements: document.querySelectorAll(`${kebab}, ${name}`),
+            file,
+            name,
+            selector: kebab,
+        })
     }
+    console.log(components);
 
     return components;
 }
-
+d
 const parsedAttributes = (HTMLElement) => {
     return HTMLElement
         .getAttributeNames()
         .reduce((acc, cur) => {
             let prop = cur;
             try {
-                // TODO: Parse based on componentModule.props
                 acc[prop] = JSON.parse( HTMLElement.getAttribute(cur) );
             } catch (e) {
                 acc[prop] = HTMLElement.getAttribute(cur);
@@ -64,12 +66,12 @@ const getSlotName = (HTMLElement) => {
     return name;
 }
 
-const renderVueApp = (element, VNode) => {
-    const vueApp = createApp(VNode);
+const renderVueApp = (element, rootComponent) => {
+    const vueApp = createApp(rootComponent);
 
     // Register All Components Globally inside each Instance
     customComponents.forEach(co => {
-        vueApp.component(co.name, co.asyncComponent)
+        vueApp.component(co.name, co.componentModule.default)
     });
 
     vueApp.mount(element);
@@ -89,7 +91,7 @@ const createHTML = text => {
 const mountChildrenNodes = (element) => {
     const tagName = element.tagName.toLowerCase();
     const component = customComponents.find(c => c.selector === tagName);
-    const elementToRender = component ? component.asyncComponent : tagName; // HTML or custom elements
+    const elementToRender = component ? component.componentModule.default : tagName; // HTML or custom elements
     let childs = [];
     let slots = {};
 
@@ -127,14 +129,15 @@ window.addEventListener('load', () => {
             if (!isInsideCustomComponent) {
                 choosedToBeInstances.push({
                     elegibleDOMElement,
-                    VNode: mountChildrenNodes(elegibleDOMElement)
+                    rootComponent: mountChildrenNodes(elegibleDOMElement),
+                    component
                 })
             }
         }
     })
 
     choosedToBeInstances.map(choosed => {
-        renderVueApp(choosed.elegibleDOMElement, choosed.VNode)
+        renderVueApp(choosed.elegibleDOMElement, choosed.rootComponent)
     })
 
 })
