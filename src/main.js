@@ -1,25 +1,24 @@
 import { createApp, defineAsyncComponent, h } from 'vue';
-import './css/index.sass'
 
+let customComponents = null;
 const getComponentsData = () => {
-    const files = import.meta.glob([
-        '@/components/**/**/**.vue',
-        '@/components/**/**/**.js'
-    ]);
+    const componentFiles = import.meta.glob('@/components/**/**/**.vue');
     let components = [];
 
-    for (const [location, component] of Object.entries(files)) {
-        const name = location.split('/').pop().replace(/\.\w+$/, '')
-
-        let kebab = name.replace(/[A-Z]/g, "-$&").toLowerCase() // String to kebab-case
+    for (let [location, file] of Object.entries(componentFiles)) {
+        const name = location.split('/').pop().replace(/\.\w+$/, '');
+        let kebab = name.replace(/[A-Z]/g, "-$&").toLowerCase() // PascalCase to kebab-case
         while(kebab.charAt(0) === '-'){kebab = kebab.substring(1)}
 
-        components.push({
-            name,
-            selector: kebab,
-            asyncComponent: defineAsyncComponent(component),
-            ElegibleDOMElements: document.querySelectorAll(`${kebab}, ${name}`)
-        })
+        // await files[location]().then(async (componentModule) => {
+            components.push({
+                asyncComponent: defineAsyncComponent(file),
+                ElegibleDOMElements: document.querySelectorAll(`${kebab}, ${name}`),
+                file,
+                name,
+                selector: kebab,
+            })
+        // })
     }
 
     return components;
@@ -30,17 +29,17 @@ const parsedAttributes = (HTMLElement) => {
         .getAttributeNames()
         .reduce((acc, cur) => {
             let prop = cur;
-            if(prop.charAt(0) === ':'){
-                prop = prop.substring(1)
-                try {
-                    acc[prop] = JSON.parse( HTMLElement.getAttribute(cur) );
-                } catch (e) {
-                    acc[prop] = HTMLElement.getAttribute(cur);
-                }
-                return acc
+            try {
+                // TODO: Parse based on componentModule.props
+                acc[prop] = JSON.parse( HTMLElement.getAttribute(cur) );
+            } catch (e) {
+                acc[prop] = HTMLElement.getAttribute(cur);
             }
 
-            acc[prop] = HTMLElement.getAttribute(cur);
+            if(prop.charAt(0) === ':') {
+                prop = prop.substring(1);
+            }
+
             return acc
         }, {});
 }
@@ -65,24 +64,15 @@ const getSlotName = (HTMLElement) => {
     return name;
 }
 
-let Wisdom = window.Wisdom || {};
-Wisdom.Base = Wisdom.Base || {};
-Wisdom.Base.VueApps = Wisdom.Base.VueApps || [];
-window.Wisdom = Wisdom;
+const renderVueApp = (element, VNode) => {
+    const vueApp = createApp(VNode);
 
-const renderVueApp = (element, component) => {
-    const vueApp = createApp(component);
+    // Register All Components Globally inside each Instance
+    customComponents.forEach(co => {
+        vueApp.component(co.name, co.asyncComponent)
+    });
 
     vueApp.mount(element);
-
-    Wisdom.Base.VueApps.push(vueApp);
-
-    const customComponents = getComponentsData();
-
-    // Register All Components inside each Instance
-    customComponents.forEach(co => {
-        vueApp.component(co.selector, co.asyncComponent) // component-kebab-case
-    });
 
     return vueApp;
 }
@@ -97,7 +87,6 @@ const createHTML = text => {
 }
 
 const mountChildrenNodes = (element) => {
-    const customComponents = getComponentsData();
     const tagName = element.tagName.toLowerCase();
     const component = customComponents.find(c => c.selector === tagName);
     const elementToRender = component ? component.asyncComponent : tagName; // HTML or custom elements
@@ -126,8 +115,8 @@ const mountChildrenNodes = (element) => {
  * Renders On Page Load
  */
 window.addEventListener('load', () => {
-    const customComponents = getComponentsData()
-    const componentsTags = customComponents.reduce((acc, component) => [...acc, component.selector], [])
+    customComponents = getComponentsData();
+    const componentsTags = customComponents.reduce((acc, component) => [...acc, component.selector, component.name], [])
     let choosedToBeInstances = [];
 
     customComponents.map(component => {
@@ -136,15 +125,16 @@ window.addEventListener('load', () => {
             const isInsideCustomComponent = componentsTags.includes(parentNodeTag);
 
             if (!isInsideCustomComponent) {
-
                 choosedToBeInstances.push({
                     elegibleDOMElement,
-                    component: mountChildrenNodes(elegibleDOMElement)
+                    VNode: mountChildrenNodes(elegibleDOMElement)
                 })
             }
         }
     })
 
-    choosedToBeInstances.map(choosed => renderVueApp(choosed.elegibleDOMElement, choosed.component))
+    choosedToBeInstances.map(choosed => {
+        renderVueApp(choosed.elegibleDOMElement, choosed.VNode)
+    })
 
 })
