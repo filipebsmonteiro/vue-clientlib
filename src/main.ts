@@ -70,28 +70,6 @@ export default class VueClientLib {
             this.h(elementToRender, getAttrs(element));
     }
 
-    filterInstances():Array<Record<any, any>> {
-        const instances:Array<Record<any, any>> = [];
-        this.components.map(component => {
-            for (let element of Array.from(component.DOMElements)) {
-                // TODO: Tem que fazer um loop até o body para Evitar CUSTOM->DIV->CUSTOM
-                const parentNodeTag = element?.parentElement?.tagName.toLowerCase() as String;
-                const isInsideCustomComponent = this.componentsTags.includes(parentNodeTag);
-
-                if (!isInsideCustomComponent) {
-                    const VNode = this.virtualize(element);
-                    // const instance = createApp(VNode);
-                    // instance.mount(element);
-                    instances.push({
-                        VNode,
-                        element
-                    })
-                }
-            }
-        })
-        return instances
-    }
-
     renderInstances(): void {
         const instances:Array<Record<any, any>> = [];
         
