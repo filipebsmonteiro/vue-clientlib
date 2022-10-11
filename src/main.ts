@@ -2,7 +2,7 @@ import { App, CreateAppFunction, VNode } from 'vue';
 import { getAttrs, getSlotData } from './html';
 import { ClientlibComponent, PluginOptions } from './types/mytypes';
 
-export default class ViteClientLib {
+export default class VueClientLib {
     createApp: CreateAppFunction<Element>;
     defineComponent: Function;
     h: Function;
