@@ -1,17 +1,17 @@
 {
-  "name": "vite-clientlib",
+  "name": "vue-clientlib",
   "private": false,
   "version": "0.0.1",
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/vite-clientlib.umd.js",
-  "module": "./dist/vite-clientlib.es.js",
+  "main": "./dist/vue-clientlib.umd.js",
+  "module": "./dist/vue-clientlib.es.js",
   "exports": {
     ".": {
-      "import": "./dist/vite-clientlib.es.js",
-      "require": "./dist/vite-clientlib.umd.js"
+      "import": "./dist/vue-clientlib.es.js",
+      "require": "./dist/vue-clientlib.umd.js"
     }
   },
   "scripts": {
@@ -20,9 +20,7 @@
     "preview": "vite preview",
     "watch": "vite build --watch"
   },
-  "dependencies": {
-    "vue": "^3.2.37"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.0.3",
     "sass": "^1.55.0",

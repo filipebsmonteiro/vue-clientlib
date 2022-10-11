@@ -1,14 +1,20 @@
-import { App, createApp, defineComponent, h, VNode } from 'vue';
-// import {createApp} from 'vue/dist/vue.esm-browser.js';
+import { App, CreateAppFunction, VNode } from 'vue';
 import { getAttrs, getSlotData } from './html';
 import { ClientlibComponent, PluginOptions } from './types/mytypes';
 
-export class ViteClientLib {
+export default class ViteClientLib {
+    createApp: CreateAppFunction<Element>;
+    defineComponent: Function;
+    h: Function;
     components: Array<ClientlibComponent>;
     componentsTags: Array<String>;
     instances: Array<App>;
 
-    constructor() {
+
+    constructor(createApp: CreateAppFunction<Element>, defineComponent: Function, h: Function) {
+        this.createApp = createApp;
+        this.defineComponent = defineComponent,
+        this.h = h;
         this.components = []
         this.componentsTags = []
         this.instances = []
@@ -30,7 +36,7 @@ export class ViteClientLib {
                 this.components.push({
                     DOMElements: document.querySelectorAll(`${name}, ${kebab}`),
                     kebab,
-                    module: defineComponent(file),
+                    module: this.defineComponent(file),
                     name,
                 })
 
@@ -62,8 +68,8 @@ export class ViteClientLib {
         // return h(elementToRender, getAttrs(element), slots);
         // return { render: () => h(elementToRender, getAttrs(element), slots) };
         return component ?
-            { render: () => h(elementToRender, getAttrs(element), slots) } :
-            h(elementToRender, getAttrs(element));
+            { render: () => this.h(elementToRender, getAttrs(element), slots) } :
+            this.h(elementToRender, getAttrs(element));
     }
 
     filterInstances():Array<Record<any, any>> {
@@ -101,8 +107,8 @@ export class ViteClientLib {
                     const VNode = this.virtualize(element);
                     // console.log(VNode.children.default());
                     // const instance = createApp(VNode);
-                    const instance = createApp({
-                        render: () => h(VNode)
+                    const instance = this.createApp({
+                        render: () => this.h(VNode)
                     });
                     instances.push(instance);
 
@@ -111,19 +117,5 @@ export class ViteClientLib {
                 }
             }
         })
-    }
-}
-
-export default {
-    install: (app: App, options: PluginOptions) => {
-        // for (const name in options.components) {
-        //     if (Object.prototype.hasOwnProperty.call(options.components, name)) {
-        //         const component = options.components[name];
-        //         app.component(name, component)
-        //     }
-        // }
-        const clientlib = new ViteClientLib();
-        clientlib.loadComponents(options.components);
-        clientlib.renderInstances();
     }
 }
