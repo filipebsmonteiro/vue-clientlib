@@ -15,9 +15,9 @@ export default class VueClientLib {
         this.createApp = createApp;
         this.defineComponent = defineComponent,
         this.h = h;
-        this.components = []
-        this.componentsTags = []
-        this.instances = []
+        this.components = [];
+        this.componentsTags = [];
+        this.instances = [];
     }
 
     loadComponents(componentFiles:Record<string, () => Promise<unknown>>): void {
@@ -64,9 +64,7 @@ export default class VueClientLib {
         const hasChildren = childs.length > 0;
         const innerHTML = element.innerHTML;
         slots[`default`] =  () => hasChildren ? [...childs] : innerHTML;
-    
-        // return h(elementToRender, getAttrs(element), slots);
-        // return { render: () => h(elementToRender, getAttrs(element), slots) };
+
         return component ?
             { render: () => this.h(elementToRender, getAttrs(element), slots) } :
             this.h(elementToRender, getAttrs(element));
